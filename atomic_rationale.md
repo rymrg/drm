@@ -6,11 +6,9 @@ Currently in order to use atomic access to a variable in D, one has to always ex
 Otherwise, the programmer might insert a non-atomic access by mistake.
 Introducing an unwanted behavior (which we still need to define).
 Using shared slightly mitigates this problem, but is inconvenient and cumbersome to use.
-`atomicOp` is available for slightly easier `RMW` operations but only for Sequentially Consistent (SC) access.
 
-In C and C++ where the memory model originates, the default access to the variable without annotation does the right thing[1,2].
-It provides seamless usage of the location with SC access.
-The programmer is not required to annotate all his accesses and is automatically given SC semantics to the variable.
+In C and C++ where the memory model originates, the default access to the variable without annotation does the right thing[1,2], that is to say all accesses by default exhibit sequential consistency.
+The programmer can rely on sequential consistency from std::atomic without manual annotation.
 
 In addition, C++ has an atomic struct `std::atomic<T>`.
 This struct makes it easier to perform atomic access with weaker access.
@@ -18,10 +16,10 @@ Preventing the need for calling  a function with a pointer to the atomic locatio
 
 The proposal implements a similar struct for D.
 This allows the program to do the "right thing" when accessing atomic location.
-It also provides easier usage for the SC access, by implementing opAssign and opUnary.
-In addition, it provides an easy access to the weaker atomic access providing functions to the struct and prevents easy mis-use of the atomic.
+It also provides easier usage for the sequentially consistent access, by implementing opAssign and opUnary.
+In addition, it provides an easy access to the weaker atomic access providing functions to the struct and prevents easy misuse of the atomic.
 
-By implementing this struct, we gain easier translation from C/C++ to D as the automatic SC semantics are s are persevered.
+By implementing this struct, we gain easier translation from C/C++ to D as the automatic sequentially consistent semantics are preserved.
 Note, the translation isn't going to be 1:1 from C.
 Since C does not allow easy usage of initialization. 
 This behavior caused problems in C++ and C++ is going to break apart from C in this case[3].
