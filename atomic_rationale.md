@@ -26,7 +26,7 @@ Note, the translation isn't going to be 1:1 from C.
 Since C does not allow easy usage of initialization. 
 This behavior caused problems in C++ and C++ is going to break apart from C in this case[3].
 
-It also worth noting that other languages (such as Rust[]) implement a similar struct.
+It also worth noting that other languages (such as Rust[4]) implement a similar struct.
 
 
 ## Memory Order
