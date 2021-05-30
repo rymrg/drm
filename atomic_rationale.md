@@ -6,13 +6,13 @@ Currently in order to use atomic access to a variable in D, one has to always ex
 Otherwise, the programmer might insert a non-atomic access by mistake.
 Introducing an unwanted behavior (which we still need to define).
 Using shared slightly mitigates this problem, but is inconvenient and cumbersome to use.
-`atomicOp` is available for slightly easier `RMW` operations but only for Sequential Consistent (SC) access.
+`atomicOp` is available for slightly easier `RMW` operations but only for Sequentially Consistent (SC) access.
 
 In C and C++ where the memory model originates, the default access to the variable without annotation does the right thing[1,2].
 It provides seamless usage of the location with SC access.
 The programmer is not required to annotate all his accesses and is automatically given SC semantics to the variable.
 
-In addition, C++ has an atomic struct std::atomic<T>.
+In addition, C++ has an atomic struct `std::atomic<T>`.
 This struct makes it easier to perform atomic access with weaker access.
 Preventing the need for calling  a function with a pointer to the atomic location.
 
@@ -35,12 +35,17 @@ Since `raw` makes it sound like it is a non atomic access while in truth it is a
 This access is called relaxed in C/C++[5].
 Hence making transition from C/C++ easier.
 Given that we use the names `acq` and `rel` in D instead of `acquire` and `release`, I propose `rlx` instead of `relaxed`.
-Rust also calls this kind of access Relaxed[6].
+Rust also calls this kind of access `Relaxed`[6].
 
 
 [1] https://en.cppreference.com/w/c/atomic
+  
 [2] https://en.cppreference.com/w/cpp/atomic
+  
 [3] http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p0883r2.pdf
+  
 [4] https://doc.rust-lang.org/std/sync/atomic/index.html
+  
 [5] https://en.cppreference.com/w/cpp/atomic/memory_order
+  
 [6] https://doc.rust-lang.org/std/sync/atomic/enum.Ordering.html
