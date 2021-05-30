@@ -1,5 +1,7 @@
 # Atomic
 
+Implementing `core.atomic.atomic!T` like C++ `std::atomic<T>`.
+
 ## Rationale
 
 Currently in order to use atomic access to a variable in D, one has to always explicitly annotate his access to the variable.
