@@ -1,6 +1,6 @@
 # Atomic
 
-Implementing `core.atomic.atomic!T` like C++ `std::atomic<T>`.
+Implementing `core.atomic.Atomic!T` like C++ `std::atomic<T>`.
 
 ## Rationale
 

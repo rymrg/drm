@@ -95,3 +95,33 @@ struct Atomic(T) if (__traits(isIntegral, T)){
 	assert(a++ == 37);
 	assert(a == 38);
 }
+
+// static array of shared atomics
+@safe unittest{
+	static shared(Atomic!int)[5] arr;
+	arr[4] = 4;
+	assert(arr[4].load == 4);
+}
+
+unittest{
+	import core.thread : Thread;
+	shared(Atomic!int)[2] arr;
+
+	void reltest() @safe{
+		arr[0].store!(MemoryOrder.rel)(1);
+		arr[1].store!(MemoryOrder.rel)(1);
+	}
+	void acqtest() @safe{
+		while (arr[1].load!(MemoryOrder.acq) != 1){}
+		assert(arr[0].load!(MemoryOrder.acq) == 1);
+	}
+
+	auto t1 = new Thread(&acqtest);
+	auto t2 = new Thread(&reltest);
+	t2.start;
+	t1.start;
+	t2.join;
+	t1.join;
+}
+
+enum bool isPointer(T) = is(T == U*, U) && !isAggregateType!T;
