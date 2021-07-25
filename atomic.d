@@ -65,11 +65,16 @@ struct Atomic(T) if (__traits(isIntegral, T) || isPointer!T){
     }
     
 	/// Implicit conversion to FADD and FSUB
-    T opUnary(string op)() shared {
-        static if (op == `++`)
+    T opUnary(string op)() shared if (op == `++`) {
             return val.atomicOp!`+=`(1);
-        static if (op == `--`)
+	}
+
+    T opUnary(string op)() shared if (op == `--`) {
             return val.atomicOp!`-=`(1);
+    }
+
+    auto ref opUnary(string op)() shared if (op == `*`) {
+            return *(load);
     }
 }
 
@@ -136,9 +141,16 @@ unittest{
 	*(ptr.load) = 42;
 	assert(*ptr.load == 42);
 }
+@safe unittest{
+	shared Atomic!(shared(int)*) ptr = new shared(int);
+	*ptr = 5;
+	assert(*ptr == 5);
+	*ptr = 42;
+	assert(*ptr == 42);
+}
 
 unittest{
-	//Atomic!(shared(Atomic!(int))*) ptr = new shared(Atomic!int);
+	//shared Atomic!(shared(Atomic!(int))*) ptr = new shared(Atomic!int);
 }
 
 
