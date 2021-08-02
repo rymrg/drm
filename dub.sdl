@@ -1,0 +1,5 @@
+name "drm"
+description "Collection of D libs"
+authors "Roy Margalit"
+copyright "Copyright © 2021, Roy Margalit"
+license "proprietary"
