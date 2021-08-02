@@ -1,6 +1,8 @@
 module drm.atomic;
 public import core.atomic : MemoryOrder;
 
+pragma(inline, true):
+
 /// Atomic data like std::atomic
 struct Atomic(T) if (__traits(isIntegral, T) || isPointer!T) {
 	import core.atomic : atomicLoad, atomicStore, atomicExchange, atomicFetchAdd,
@@ -77,6 +79,8 @@ struct Atomic(T) if (__traits(isIntegral, T) || isPointer!T) {
 		return *(load);
 	}
 }
+
+private alias TestAtomic = Atomic!(int);
 
 @safe unittest {
 	shared Atomic!int a;
